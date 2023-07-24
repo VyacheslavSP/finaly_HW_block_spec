@@ -53,4 +53,144 @@ total 12
 drwxrwxr-x  2 gb gb 4096 июл 24 22:29 ./
 drwxr-x--- 21 gb gb 4096 июл 24 22:29 ../
 -rw-rw-r--  1 gb gb   41 июл 24 22:15 FriendsHuman
-gb@mygb:~/final_block_folder$
+gb@mygb:~$ sudo apt install mysql-server
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  linux-headers-5.19.0-38-generic linux-hwe-5.19-headers-5.19.0-38 linux-image-5.19.0-38-generic
+  linux-modules-5.19.0-38-generic linux-modules-extra-5.19.0-38-generic
+Use 'sudo apt autoremove' to remove them.
+The following NEW packages will be installed:
+  mysql-server
+0 upgraded, 1 newly installed, 0 to remove and 120 not upgraded.
+Need to get 9 462 B of archives.
+After this operation, 35,8 kB of additional disk space will be used.
+Get:1 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 mysql-server all 8.0.33-0ubuntu0.22.04.2 [9 462 B]
+Fetched 9 462 B in 0s (61,4 kB/s)
+Selecting previously unselected package mysql-server.
+(Reading database ... 284744 files and directories currently installed.)
+Preparing to unpack .../mysql-server_8.0.33-0ubuntu0.22.04.2_all.deb ...
+Unpacking mysql-server (8.0.33-0ubuntu0.22.04.2) ...
+Setting up mysql-server (8.0.33-0ubuntu0.22.04.2) ...
+gb@mygb:~$ sudo mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.33-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| user             | authentication_string                                                  | plugin                | host      |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| debian-sys-maint | $A$005$),`x0bj5i`M2evBq7p4M5Yk62GDPDOZpin88l.7WW1oexN7LNWrb87 | caching_sha2_password | localhost |
+| mysql.infoschema | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.session    | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.sys        | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| phpmyadmin       | $A$005$4mXsee%n afs6kY1oZT3/vH99SqcaX1tyHKrdG0eSVgLyfDjx5bHmHSiJbA | caching_sha2_password | localhost |
+| root             |                                                                        | auth_socket           | localhost |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+6 rows in set (0,00 sec)
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '********';
+Query OK, 0 rows affected (0,01 sec)
+
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0,01 sec)
+
+mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| user             | authentication_string                                                  | plugin                | host      |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+| debian-sys-maint | $A$005$),`x0bj5i`M2evBq7p4M5Yk62GDPDOZpin88l.7WW1oexN7LNWrb87 | caching_sha2_password | localhost |
+| mysql.infoschema | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.session    | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| mysql.sys        | $A$005$THISISACOMBINATIONOFINVALIDSALTANDPASSWORDTHATMUSTNEVERBRBEUSED | caching_sha2_password | localhost |
+| phpmyadmin       | $A$005$4mXsee%n afs6kY1oZT3/vH99SqcaX1tyHKrdG0eSVgLyfDjx5bHmHSiJbA | caching_sha2_password | localhost |
+| root             | *84AAC12F54AB666ECFC2A83C676908C8BBC381B1                              | mysql_native_password | localhost |
++------------------+------------------------------------------------------------------------+-----------------------+-----------+
+6 rows in set (0,01 sec)
+
+mysql> exit
+Bye
+gb@mygb:~$ systemctl status mysql.service
+● mysql.service - MySQL Community Server
+     Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
+     Active: active (running) since Mon 2023-07-24 22:05:29 MSK; 55min ago
+    Process: 956 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCESS)
+   Main PID: 1150 (mysqld)
+     Status: "Server is operational"
+      Tasks: 38 (limit: 4594)
+     Memory: 420.4M
+        CPU: 52.903s
+     CGroup: /system.slice/mysql.service
+             └─1150 /usr/sbin/mysqld
+
+Warning: some journal files were not opened due to insufficient permissions.
+gb@mygb:~$  apt download libfuse2 $(apt-rdepends libfuse2|grep -v "^ ")
+Command 'apt-rdepends' not found, but can be installed with:
+sudo apt install apt-rdepends
+Get:1 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 libfuse2 amd64 2.9.9-5ubuntu3 [90,3 kB]
+Fetched 90,3 kB in 0s (480 kB/s)
+gb@mygb:~$ sudo apt download libfuse2 $(apt-rdepends libfuse2|grep -v "^ ")
+Command 'apt-rdepends' not found, but can be installed with:
+sudo apt install apt-rdepends
+gb@mygb:~$ sudo apt download libfuse2
+gb@mygb:~$ sudo apt-get -f install
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  linux-headers-5.19.0-38-generic linux-hwe-5.19-headers-5.19.0-38 linux-image-5.19.0-38-generic linux-modules-5.19.0-38-generic
+  linux-modules-extra-5.19.0-38-generic
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 120 not upgraded.
+gb@mygb:~$ sudo apt remove libfuse2
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  linux-headers-5.19.0-38-generic linux-hwe-5.19-headers-5.19.0-38 linux-image-5.19.0-38-generic linux-modules-5.19.0-38-generic
+  linux-modules-extra-5.19.0-38-generic
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  libfuse2 lxcfs
+0 upgraded, 0 newly installed, 2 to remove and 120 not upgraded.
+After this operation, 571 kB disk space will be freed.
+Do you want to continue? [Y/n] y
+(Reading database ... 284746 files and directories currently installed.)
+Removing lxcfs (5.0.0-0ubuntu2) ...
+Removing libfuse2:amd64 (2.9.9-5ubuntu3) ...
+Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
+gb@mygb:~$ wget http://archive.ubuntu.com/ubuntu/pool/universe/c/cowsay/cowsay_3.03+dfsg2-4_all.deb
+--2023-07-24 23:14:10--  http://archive.ubuntu.com/ubuntu/pool/universe/c/cowsay/cowsay_3.03+dfsg2-4_all.deb
+Resolving archive.ubuntu.com (archive.ubuntu.com)... 91.189.91.38, 185.125.190.36, 185.125.190.39, ...
+Connecting to archive.ubuntu.com (archive.ubuntu.com)|91.189.91.38|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17684 (17K) [application/x-debian-package]
+Saving to: ‘cowsay_3.03+dfsg2-4_all.deb’
+
+cowsay_3.03+dfsg2-4_all.deb       100%[===========================================================>]  17,27K  --.-KB/s    in 0,001s
+
+2023-07-24 23:14:10 (22,1 MB/s) - ‘cowsay_3.03+dfsg2-4_all.deb’ saved [17684/17684]
+
+gb@mygb:~$ sudo dpkg -i cowsay_3.03+dfsg2-4_all.deb
+Selecting previously unselected package cowsay.
+(Reading database ... 284720 files and directories currently installed.)
+Preparing to unpack cowsay_3.03+dfsg2-4_all.deb ...
+Unpacking cowsay (3.03+dfsg2-4) ...
+Setting up cowsay (3.03+dfsg2-4) ...
+Processing triggers for man-db (2.10.2-1) ...
+gb@mygb:~$ sudo dpkg -r cowsay
+(Reading database ... 284778 files and directories currently installed.)
+Removing cowsay (3.03+dfsg2-4) ...
+Processing triggers for man-db (2.10.2-1) ...
+gb@mygb:~$
