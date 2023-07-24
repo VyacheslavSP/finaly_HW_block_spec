@@ -1,0 +1,49 @@
+Windows PowerShell
+(C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+Попробуйте новую кроссплатформенную оболочку PowerShell (https://aka.ms/pscore6)
+
+PS C:\Users\willy> ssh -p 8022 gb@localhost
+gb@localhost's password:
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.19.0-46-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Expanded Security Maintenance for Applications is not enabled.
+
+107 updates can be applied immediately.
+14 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+2 additional security updates can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+Last login: Mon Jul 24 21:28:35 2023 from 10.0.2.2
+gb@mygb:~$ cat>Pets
+cats
+dogs
+humsters
+gb@mygb:~$ cat Pets
+cats
+dogs
+humsters
+gb@mygb:~$ touch PackAnimals
+gb@mygb:~$ cat>PackAnimals
+horses
+camels
+donkeys
+gb@mygb:~$ cat PackAnimals
+horses
+camels
+donkeys
+gb@mygb:~$ cat Pets PackAnimals>FriendsHuman
+gb@mygb:~$ cat FriendsHuman
+cats
+dogs
+humsters
+horses
+camels
+donkeys
+gb@mygb:~$
