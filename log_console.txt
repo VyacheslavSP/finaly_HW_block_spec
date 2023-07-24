@@ -46,4 +46,11 @@ humsters
 horses
 camels
 donkeys
-gb@mygb:~$
+gb@mygb:~$ mv FriendsHuman final_block_folder/
+gb@mygb:~$ cd final_block_folder/
+gb@mygb:~/final_block_folder$ ll
+total 12
+drwxrwxr-x  2 gb gb 4096 июл 24 22:29 ./
+drwxr-x--- 21 gb gb 4096 июл 24 22:29 ../
+-rw-rw-r--  1 gb gb   41 июл 24 22:15 FriendsHuman
+gb@mygb:~/final_block_folder$
