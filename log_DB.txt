@@ -74,7 +74,7 @@ mysql> use HumanFriends
 Database changed
 mysql> CREATE TABLE `animal` (   `id` Int NOT NULL AUTO_INCREMENT,   `animal_name` Varchar(20) NOT NULL,   PRIMARY KEY (`id`) ); `animal_name` Varchar(20) NOT NULL,
 Query OK, 0 rows affected (0,07 sec)
-    -> )
+ 
 mysql>CREATE TABLE `Pets`
 (
   `id` Int NOT NULL AUTO_INCREMENT,
@@ -202,40 +202,7 @@ mysql> CREATE INDEX `home_dog` ON `dog` (`id_home`)
 Query OK, 0 rows affected (0,05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE `Pets` ADD CONSTRAINT `animal_to_home` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,13 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> ALTER TABLE `cat` ADD CONSTRAINT `home_to_cat` FOREIGN KEY (`id_home`) REFERENCES `Pets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,15 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> ALTER TABLE `dog` ADD CONSTRAINT `home_to_dog` FOREIGN KEY (`id_home`) REFERENCES `Pets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,14 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> ALTER TABLE `hamster` ADD CONSTRAINT `home_to_hamster` FOREIGN KEY (`id_home`) REFERENCES `Pets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,15 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> ALTER TABLE `camel` ADD CONSTRAINT `pack_to_camel` FOREIGN KEY (`id_pack`) REFERENCES `PackAnimal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,16 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> ALTER TABLE `horse` ADD CONSTRAINT `pack_to_horse` FOREIGN KEY (`id_pack`) REFERENCES `PackAnimal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,14 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> ALTER TABLE `donkey` ADD CONSTRAINT `pack_to_donkey` FOREIGN KEY (`id_pack`) REFERENCES `PackAnimal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-    -> ;
-Query OK, 0 rows affected (0,13 sec)
-Records: 0  Duplicates: 0  Warnings: 0
 
 mysql> Show tables
     -> ;
@@ -253,3 +220,78 @@ mysql> Show tables
 | horse                  |
 +------------------------+
 9 rows in set (0,00 sec)
+ mysql> INSERT INTO cat (cat_name,date_birth,commands)
+ VALUES
+ ('кот_1','2022-12-01','команда кота'),
+ ('кот_2','2020-01-01','команда кота_2')
+Query OK, 2 rows affected (0,01 sec)
+Records: 2  Duplicates: 0  Warnings: 0 
+
+mysql> SELECT * FROM cat;
++----+----------+------------+---------------------------+---------+
+| id | cat_name | date_birth | commands                  | id_home |
++----+----------+------------+---------------------------+---------+
+|  5 | кот_1    | 2022-12-01 | команда кота              |    1    |
+|  6 | кот_2    | 2020-01-01 | команда кота_2            |    1    |
++----+----------+------------+---------------------------+---------+
+
+ mysql> INSERT INTO dog (dog_name,date_birth,commands)
+ VALUES
+ ('пес_1','2021-05-11','команда пса');
+Query OK, 2 rows affected (0,01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+SELECT * FROM dog;
++----+----------+------------+-----------------------+---------+
+| id | dog_name | date_birth | commands              | id_home |
++----+----------+------------+-----------------------+---------+
+|  1 | пес_1    | 2021-05-11 | команда пса           |    1    |
++----+----------+------------+-----------------------+---------+
+1 row in set (0,00 sec)
+
+ mysql> INSERT INTO hamster (hamster_name,date_birth)  VALUES  ('ХОМЯК','2023-07-31');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT * FROM hamster
+    -> ;
++----+--------------+------------+----------+---------+
+| id | hamster_name | date_birth | commands | id_home |
++----+--------------+------------+----------+---------+
+|  1 | ХОМЯК        | 2023-07-31 | NULL     |    1    |
++----+--------------+------------+----------+---------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO camel (name,date_birth,commands)
+    ->  VALUES
+    ->  ('вербюд на удаление','2021-05-11','команды верблюда');
+Query OK, 1 row affected (0,01 sec)
+
+
++----+------------------------------------+------------+---------------------------------+---------+
+| id | name                               | date_birth | commands                        | id_pack |
++----+------------------------------------+------------+---------------------------------+---------+
+|  1 | вербюд на удаление                 | 2021-05-11 | команды верблюда                |    1    |
++----+------------------------------------+------------+---------------------------------+---------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO horse (name,date_birth,commands) VALUES  ('лощадь 1','2018-05-09','команда лошади');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT * from horse
+    -> ;
++----+----------------+------------+-----------------------------+---------+
+| id | name           | date_birth | commands                    | id_pack |
++----+----------------+------------+-----------------------------+---------+
+|  1 | лощадь 1       | 2018-05-09 | команда лошади              |    1    |
++----+----------------+------------+-----------------------------+---------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO donkey (name,date_birth,commands) VALUES  ('ишак 1','2015-01-01','команда осла');
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT * from donkey;
++----+------------+------------+-------------------------+---------+
+| id | name       | date_birth | commands                | id_pack |
++----+------------+------------+-------------------------+---------+
+|  1 | ишак 1     | 2015-01-01 | команда осла            |    NULL |
++----+------------+------------+-------------------------+---------+
+1 row in set (0,00 sec)
