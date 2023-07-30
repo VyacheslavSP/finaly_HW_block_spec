@@ -351,4 +351,90 @@ mysql> SELECT id,name,commands,id_pack
 +----+----------------+-----------------------------+---------+
 2 rows in set (0,01 sec)
 
+mysql> CREATE TABLE animal_young (
+    -> id int NOT NULL,
+    -> name varchar(50),
+    -> date_birth Datetime,
+    -> commands varchar(200),
+    -> age varchar(50));
+Query OK, 0 rows affected (0,08 sec)
+
+mysql> INSERT INTO animal_young (id, name, date_birth, commands,  age)
+    -> SELECT id, cat_name, date_birth, commands,
+    -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
+AST(    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+    -> FROM cat
+    -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
+Query OK, 0 rows affected (0,00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO animal_young (id, name, date_birth, commands, age)
+    -> SELECT id, dog_name, date_birth, commands,
+    -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
+AST(    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+    -> FROM dog
+    -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
+Query OK, 1 row affected (0,01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO animal_young (id, name, date_birth, commands,  age)
+    -> SELECT id, name, date_birth, commands,
+    -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
+    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+    -> FROM horse
+    -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36
+    -> UNION ALL
+    -> SELECT id, name, date_birth, commands,
+    -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
+    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+ROM d    -> FROM donkey
+    -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
+Query OK, 0 rows affected (0,01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW table
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> SHOW tables;
++------------------------+
+| Tables_in_HumanFriends |
++------------------------+
+| PackAnimal             |
+| Pets                   |
+| animal                 |
+| animal_young           |
+| cat                    |
+| dog                    |
+| donkey                 |
+| hamster                |
+| horse                  |
++------------------------+
+9 rows in set (0,01 sec)
+
+mysql> SELECT * FROM animal_young
+    -> ;
++----+----------+---------------------+-----------------------+--------------------+
+| id | name     | date_birth          | commands              | age                |
++----+----------+---------------------+-----------------------+--------------------+
+|  1 | пес_1    | 2021-05-11 00:00:00 | команда пса           | 2 лет 2 мес.       |
++----+----------+---------------------+-----------------------+--------------------+
+1 row in set (0,01 sec)
+
+mysql> INSERT INTO animal_young (id, name, date_birth, commands,  age)
+    -> SELECT id, hamster_name, date_birth, commands,
+    -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
+    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+    -> FROM hamster
+    -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
+Query OK, 0 rows affected (0,00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM animal_young;
++----+----------+---------------------+-----------------------+--------------------+
+| id | name     | date_birth          | commands              | age                |
++----+----------+---------------------+-----------------------+--------------------+
+|  1 | пес_1    | 2021-05-11 00:00:00 | команда пса           | 2 лет 2 мес.       |
++----+----------+---------------------+-----------------------+--------------------+
+1 row in set (0,00 sec)
+
 mysql>
