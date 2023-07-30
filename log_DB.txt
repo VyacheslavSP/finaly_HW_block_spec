@@ -362,7 +362,7 @@ Query OK, 0 rows affected (0,08 sec)
 mysql> INSERT INTO animal_young (id, name, date_birth, commands,  age)
     -> SELECT id, cat_name, date_birth, commands,
     -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
-AST(    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
     -> FROM cat
     -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
 Query OK, 0 rows affected (0,00 sec)
@@ -371,7 +371,7 @@ Records: 0  Duplicates: 0  Warnings: 0
 mysql> INSERT INTO animal_young (id, name, date_birth, commands, age)
     -> SELECT id, dog_name, date_birth, commands,
     -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
-AST(    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
+    -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
     -> FROM dog
     -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
 Query OK, 1 row affected (0,01 sec)
@@ -387,7 +387,7 @@ mysql> INSERT INTO animal_young (id, name, date_birth, commands,  age)
     -> SELECT id, name, date_birth, commands,
     -> CONCAT(CAST(TIMESTAMPDIFF(YEAR, date_birth, NOW()) AS CHAR), " лет ",
     -> CAST(MOD(TIMESTAMPDIFF(MONTH, date_birth, NOW()), 12)  AS CHAR), " мес.") AS age
-ROM d    -> FROM donkey
+    -> FROM donkey
     -> WHERE TIMESTAMPDIFF(MONTH, date_birth, NOW()) BETWEEN 12 AND 36;
 Query OK, 0 rows affected (0,01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -437,4 +437,28 @@ mysql> SELECT * FROM animal_young;
 +----+----------+---------------------+-----------------------+--------------------+
 1 row in set (0,00 sec)
 
-mysql>
+
+
+mysql> SELECT * FROM (SELECT id, cat_name, dog_name, NULL as hamster_name, NULL as name, date_birth, commands FROM (
+    -> SELECT id, cat_name, NULL as dog_name, NULL AS hamster_name, NULL AS name, date_birth, commands FROM cat
+    -> UNION all
+    -> SELECT id, NULL as cat_name, dog_name, NULL AS hamster_name, NULL AS name, date_birth, commands FROM dog) as A
+    -> UNION ALL
+    -> SELECT id, NULL as cat_name, NULL as dog_name, hamster_name, NULL AS name, date_birth, commands FROM hamster) as B
+    -> UNION ALL
+    -> SELECT * FROM (
+    -> SELECT id, NULL AS cat_name, NULL AS dog_name, NULL AS hamster_name, name, date_birth, commands FROM horse
+    -> UNION ALL
+    -> SELECT id, NULL AS cat_name, NULL AS dog_name, NULL AS hamster_name, name, date_birth, commands FROM donkey
+    -> )as c;
++----+----------+----------+--------------+----------------+------------+-----------------------------+
+| id | cat_name | dog_name | hamster_name | name           | date_birth | commands                    |
++----+----------+----------+--------------+----------------+------------+-----------------------------+
+|  5 | кот_1    | NULL     | NULL         | NULL           | 2022-12-01 | команда кота                |
+|  6 | кот_2    | NULL     | NULL         | NULL           | 2020-01-01 | команда кота_2              |
+|  1 | NULL     | пес_1    | NULL         | NULL           | 2021-05-11 | команда пса                 |
+|  1 | NULL     | NULL     | ХОМЯК        | NULL           | 2023-07-31 | NULL                        |
+|  1 | NULL     | NULL     | NULL         | лощадь 1       | 2018-05-09 | команда лошади              |
+|  1 | NULL     | NULL     | NULL         | ишак 1         | 2015-01-01 | команда осла                |
++----+----------+----------+--------------+----------------+------------+-----------------------------+
+6 rows in set (0,00 sec)
