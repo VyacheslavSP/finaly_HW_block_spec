@@ -292,6 +292,63 @@ mysql> SELECT * from donkey;
 +----+------------+------------+-------------------------+---------+
 | id | name       | date_birth | commands                | id_pack |
 +----+------------+------------+-------------------------+---------+
-|  1 | ишак 1     | 2015-01-01 | команда осла            |    NULL |
+|  1 | ишак 1     | 2015-01-01 | команда осла            |    1    |
 +----+------------+------------+-------------------------+---------+
 1 row in set (0,00 sec)
+
+
+mysql> SHOW tables;
++------------------------+
+| Tables_in_HumanFriends |
++------------------------+
+| PackAnimal             |
+| Pets                   |
+| animal                 |
+| camel                  |
+| cat                    |
+| dog                    |
+| donkey                 |
+| hamster                |
+| horse                  |
++------------------------+
+9 rows in set (0,01 sec)
+
+mysql> DELETE FROM camel;
+Query OK, 1 row affected (0,01 sec)
+
+mysql> select * from camel
+    -> ;
+Empty set (0,00 sec)
+
+mysql> DROP TABLE camel;
+Query OK, 0 rows affected (0,04 sec)
+
+mysql> SHOW tables;
++------------------------+
+| Tables_in_HumanFriends |
++------------------------+
+| PackAnimal             |
+| Pets                   |
+| animal                 |
+| cat                    |
+| dog                    |
+| donkey                 |
+| hamster                |
+| horse                  |
++------------------------+
+8 rows in set (0,00 sec)
+
+mysql> SELECT id,name,commands,id_pack
+    -> FROM horse
+    -> UNION
+    -> SELECT id,name,commands,id_pack
+    -> FROM donkey;
++----+----------------+-----------------------------+---------+
+| id | name           | commands                    | id_pack |
++----+----------------+-----------------------------+---------+
+|  1 | лощадь 1       | команда лошади              |    1    |
+|  1 | ишак 1         | команда осла                |    1    |
++----+----------------+-----------------------------+---------+
+2 rows in set (0,01 sec)
+
+mysql>
