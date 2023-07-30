@@ -70,4 +70,186 @@ mysql> show databases;
 +--------------------+
 7 rows in set (0,00 sec)
 
-mysql>
+mysql> use HumanFriends
+Database changed
+mysql> CREATE TABLE `animal` (   `id` Int NOT NULL AUTO_INCREMENT,   `animal_name` Varchar(20) NOT NULL,   PRIMARY KEY (`id`) ); `animal_name` Varchar(20) NOT NULL,
+Query OK, 0 rows affected (0,07 sec)
+    -> )
+mysql>CREATE TABLE `Pets`
+(
+  `id` Int NOT NULL AUTO_INCREMENT,
+  `home_name` Varchar(20) NOT NULL,
+  `id_animal` Int,
+  PRIMARY KEY (`id`)
+)
+;
+mysql> CREATE INDEX `animal_home` ON `Pets` (`id_animal`)
+    -> ;
+Query OK, 0 rows affected (0,06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+mysql> CREATE TABLE `cat`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `cat_name` Varchar(30) NOT NULL,
+    ->   `date_birth` Date NOT NULL,
+    ->   `commands` Varchar(200),
+    ->   `id_home` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+
+
+
+mysql>CREATE INDEX `home_cat` ON `cat` (`id_home`)
+;
+
+mysql> CREATE TABLE `hamster`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `hamster_name` Varchar(30) NOT NULL,
+    ->   `date_birth` Date NOT NULL,
+    ->   `commands` Varchar(200),
+    ->   `id_home` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+
+mysql> CREATE INDEX `home_hamster` ON `hamster` (`id_home`)
+    -> ;
+Query OK, 0 rows affected (0,04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE `PackAnimal`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `pack_name` Varchar(20) NOT NULL,
+    ->   `id_animal` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+
+
+mysql> CREATE INDEX `animal_pack` ON `PackAnimal` (`id_animal`)
+    -> ;
+Query OK, 0 rows affected (0,05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE `camel`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `name` Varchar(30) NOT NULL,
+    ->   `date_birth` Date NOT NULL,
+    ->   `commands` Varchar(200),
+    ->
+    ->   `id_pack` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+
+
+mysql> CREATE INDEX `pack_camel` ON `camel` (`id_pack`);
+Query OK, 0 rows affected (0,05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE `horse`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `name` Varchar(30) NOT NULL,
+    ->   `date_birth` Date NOT NULL,
+    ->   `commands` Varchar(200),
+    ->   `id_pack` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+Query OK, 0 rows affected (0,05 sec)
+
+mysql> CREATE INDEX `pack_hourse` ON `horse` (`id_pack`)
+    -> ;
+Query OK, 0 rows affected (0,04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> CREATE TABLE `donkey`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `name` Varchar(30) NOT NULL,
+    ->   `date_birth` Date NOT NULL,
+    ->   `commands` Varchar(200),
+    ->   `id_pack` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+Query OK, 0 rows affected (0,05 sec)
+mysql> CREATE INDEX `pack_donkey` ON `donkey` (`id_pack`)
+    -> ;
+Query OK, 0 rows affected (0,04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE `dog`
+    -> (
+    ->   `id` Int NOT NULL AUTO_INCREMENT,
+    ->   `dog_name` Varchar(30) NOT NULL,
+ Date N    ->   `date_birth` Date NOT NULL,
+    ->   `commands` Varchar(200),
+    ->   `id_home` Int,
+    ->   PRIMARY KEY (`id`)
+    -> )
+    -> ;
+Query OK, 0 rows affected (0,05 sec)
+
+mysql> CREATE INDEX `home_dog` ON `dog` (`id_home`)
+    -> ;
+Query OK, 0 rows affected (0,05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `Pets` ADD CONSTRAINT `animal_to_home` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `cat` ADD CONSTRAINT `home_to_cat` FOREIGN KEY (`id_home`) REFERENCES `Pets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `dog` ADD CONSTRAINT `home_to_dog` FOREIGN KEY (`id_home`) REFERENCES `Pets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `hamster` ADD CONSTRAINT `home_to_hamster` FOREIGN KEY (`id_home`) REFERENCES `Pets` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `camel` ADD CONSTRAINT `pack_to_camel` FOREIGN KEY (`id_pack`) REFERENCES `PackAnimal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `horse` ADD CONSTRAINT `pack_to_horse` FOREIGN KEY (`id_pack`) REFERENCES `PackAnimal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `donkey` ADD CONSTRAINT `pack_to_donkey` FOREIGN KEY (`id_pack`) REFERENCES `PackAnimal` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    -> ;
+Query OK, 0 rows affected (0,13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Show tables
+    -> ;
++------------------------+
+| Tables_in_HumanFriends |
++------------------------+
+| PackAnimal             |
+| Pets                   |
+| animal                 |
+| camel                  |
+| cat                    |
+| dog                    |
+| donkey                 |
+| hamster                |
+| horse                  |
++------------------------+
+9 rows in set (0,00 sec)
